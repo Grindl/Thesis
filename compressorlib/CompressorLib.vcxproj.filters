@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="3rdParty">
+      <UniqueIdentifier>{46f7ba6d-3501-481a-8799-d35b413cff65}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Code\CompressionInterface.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ConnectionInitializationServer.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\JPEGCompressor.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\NonCompressor.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\TheoraCompressor.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\jpgd.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\jpge.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\apiwrapper.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\bitpack.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\cpu.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\dct.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\decint.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\dequant.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\encint.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\enquant.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\huffdec.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\huffenc.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\huffman.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\internal.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\mathops.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\modedec.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\ocintrin.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\libtheora\lib\quant.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\CompressAndSendAPI.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Code\JPEGCompressor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\NonCompressor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\TheoraCompressor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\jpgd.cpp">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\jpge.cpp">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\analyze.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\apiwrapper.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\bitpack.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\cpu.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\decapiwrapper.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\decinfo.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\decode.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\dequant.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\encapiwrapper.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\encfrag.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\encinfo.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\encode.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\encoder_disabled.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\enquant.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\fdct.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\fragment.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\huffdec.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\huffenc.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\idct.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\info.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\internal.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\mathops.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\mcenc.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\quant.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\rate.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\state.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\libtheora\lib\tokenize.c">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\CompressAndSendAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Code\Javascript\WebsocketConnection.js">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

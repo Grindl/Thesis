@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B35FB0C4-8AAC-45E6-9E0D-554B879BF850}</ProjectGuid>
+    <RootNamespace>CompressorLib</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Code/3rdParty/poco-1.4.7p1/XML/include;$(SolutionDir)/Code/3rdParty/poco-1.4.7p1/CppUnit/include;$(SolutionDir)/Code/3rdParty/poco-1.4.7p1/Util/include;$(SolutionDir)/Code/3rdParty/poco-1.4.7p1/Net/include;$(SolutionDir)/Code/3rdParty/poco-1.4.7p1/Foundation/include;$(SolutionDir)/Code/3rdParty/libogg/include;$(SolutionDir)/Code/3rdParty/libtheora/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Code/3rdParty/poco-1.4.7p1/XML/include;$(SolutionDir)/Code/3rdParty/poco-1.4.7p1/CppUnit/include;$(SolutionDir)/Code/3rdParty/poco-1.4.7p1/Util/include;$(SolutionDir)/Code/3rdParty/poco-1.4.7p1/Net/include;$(SolutionDir)/Code/3rdParty/poco-1.4.7p1/Foundation/include;$(SolutionDir)/Code/3rdParty/libogg/include;$(SolutionDir)/Code/3rdParty/libtheora/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Code\3rdParty\jpgd.h" />
+    <ClInclude Include="Code\3rdParty\jpge.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\apiwrapper.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\bitpack.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\cpu.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\dct.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\decint.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\dequant.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\encint.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\enquant.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\huffdec.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\huffenc.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\huffman.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\internal.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\mathops.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\modedec.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\ocintrin.h" />
+    <ClInclude Include="Code\3rdParty\libtheora\lib\quant.h" />
+    <ClInclude Include="Code\CompressAndSendAPI.hpp" />
+    <ClInclude Include="Code\CompressionInterface.hpp" />
+    <ClInclude Include="Code\ConnectionInitializationServer.hpp" />
+    <ClInclude Include="Code\JPEGCompressor.hpp" />
+    <ClInclude Include="Code\NonCompressor.hpp" />
+    <ClInclude Include="Code\TheoraCompressor.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Code\3rdParty\jpgd.cpp" />
+    <ClCompile Include="Code\3rdParty\jpge.cpp" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\analyze.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\apiwrapper.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\bitpack.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\cpu.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\decapiwrapper.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\decinfo.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\decode.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\dequant.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\encapiwrapper.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\encfrag.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\encinfo.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\encode.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\encoder_disabled.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\enquant.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\fdct.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\fragment.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\huffdec.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\huffenc.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\idct.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\info.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\internal.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\mathops.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\mcenc.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\quant.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\rate.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\state.c" />
+    <ClCompile Include="Code\3rdParty\libtheora\lib\tokenize.c" />
+    <ClCompile Include="Code\CompressAndSendAPI.cpp" />
+    <ClCompile Include="Code\JPEGCompressor.cpp" />
+    <ClCompile Include="Code\NonCompressor.cpp" />
+    <ClCompile Include="Code\TheoraCompressor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Code\Javascript\WebsocketConnection.js" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
