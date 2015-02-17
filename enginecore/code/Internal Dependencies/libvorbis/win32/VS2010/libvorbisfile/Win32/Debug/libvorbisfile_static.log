@@ -1,0 +1,38 @@
+﻿Build started 2/8/2015 11:20:42 PM.
+     1>Project "D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\libvorbisfile\libvorbisfile_static.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Win32\Debug\libvorbisfile.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\..\include /I..\..\..\..\libogg\include /I"..\..\..\..\libogg-1.2.0\include" /I..\..\..\..\ogg\include /I..\..\..\..\..\..\..\core\ogg\libogg\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D LIBVORBISFILE_EXPORTS /D _VC80_UPGRADE=0x0710 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Win32\Debug\\" /Fd"Win32\Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt ..\..\..\lib\vorbisfile.c
+         vorbisfile.c
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(259): warning C4244: 'function' : conversion from 'ogg_int64_t' to 'long', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(273): warning C4244: '=' : conversion from 'ogg_int64_t' to 'int', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(539): warning C4244: 'return' : conversion from 'ogg_int64_t' to 'int', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(566): warning C4244: 'return' : conversion from 'ogg_int64_t' to 'int', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(570): warning C4244: 'return' : conversion from 'ogg_int64_t' to 'int', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(580): warning C4244: 'return' : conversion from 'ogg_int64_t' to 'int', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(642): warning C4244: 'return' : conversion from 'ogg_int64_t' to 'int', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(875): warning C4244: 'function' : conversion from 'ogg_int64_t' to 'long', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(1013): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(1115): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(1116): warning C4244: 'return' : conversion from 'double' to 'long', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(1120): warning C4244: 'return' : conversion from 'double' to 'long', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(1148): warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(1676): warning C4244: '=' : conversion from 'ogg_int64_t' to 'long', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(1713): warning C4244: 'initializing' : conversion from 'double' to 'ogg_int64_t', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(1743): warning C4244: 'initializing' : conversion from 'double' to 'ogg_int64_t', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\lib\vorbisfile.c(2079): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1151,5): warning MSB8012: TargetPath(D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\libvorbisfile.lib) does not match the Library's OutputFile property value (D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\libvorbisfile_static.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1153,5): warning MSB8012: TargetName(libvorbisfile) does not match the Library's OutputFile property value (libvorbisfile_static). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\libvorbisfile_static.lib" /NOLOGO Win32\Debug\vorbisfile.obj
+         libvorbisfile_static.vcxproj -> D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\libvorbisfile.lib
+       FinalizeBuildStatus:
+         Deleting file "Win32\Debug\libvorbisfile.unsuccessfulbuild".
+         Touching "Win32\Debug\libvorbisfile.lastbuildstate".
+     1>Done Building Project "D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\libvorbisfile\libvorbisfile_static.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.95

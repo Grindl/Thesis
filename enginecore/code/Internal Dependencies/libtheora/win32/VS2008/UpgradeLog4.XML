@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="libtheora_static">
+</Property><Property Name="Solution File" Value="D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libtheora\win32\VS2008\libtheora_static.sln">
+</Property><Property Name="User Options File" Value="D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libtheora\win32\VS2008\libtheora_static.suo">
+</Property><Property Name="Date" Value="Sunday, February 08, 2015">
+</Property><Property Name="Time" Value="23:22 PM">
+</Property><Property Name="Log Number" Value="4">
+</Property><Property Name="Solution" Value="libtheora_static">
+</Property><Property Name="Solution File" Value="D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libtheora\win32\VS2008\libtheora_static.sln">
+</Property><Property Name="User Options File" Value="D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libtheora\win32\VS2008\libtheora_static.suo">
+</Property><Property Name="Date" Value="Sunday, February 08, 2015">
+</Property><Property Name="Time" Value="23:22 PM">
+</Property><Property Name="Log Number" Value="4">
+</Property></Properties><Event ErrorLevel="2" Project="" Source="libtheora_static.sln" Description="Error creating backup file: D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libtheora\win32\VS2008\libtheora_static.sln.old">
+</Event><Event ErrorLevel="0" Project="" Source="libtheora_static.suo" Description="File successfully backed up as D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libtheora\win32\VS2008\libtheora_static.suo.old">
+</Event><Event ErrorLevel="3" Project="dump_video_static" Source="dump_video\dump_video_static.vcxproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="3" Project="libtheora_static" Source="libtheora\libtheora_static.vcproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="3" Project="encoder_example_static" Source="encoder_example\encoder_example_static.vcxproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="2" Project="" Source="libtheora_static.sln" Description="Error creating backup file: D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libtheora\win32\VS2008\libtheora_static.sln.old">
+</Event><Event ErrorLevel="2" Project="" Source="libtheora_static.suo" Description="Error creating backup file: D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libtheora\win32\VS2008\libtheora_static.suo.old">
+</Event><Event ErrorLevel="3" Project="dump_video_static" Source="dump_video\dump_video_static.vcxproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="3" Project="libtheora_static" Source="libtheora\libtheora_static.vcproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="3" Project="encoder_example_static" Source="encoder_example\encoder_example_static.vcxproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="" Source="libtheora_static.sln" Description="The solution file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="" Source="libtheora_static.sln" Description="No Conversion Required">
+</Event></UpgradeLog>

@@ -1,0 +1,37 @@
+﻿Build started 2/8/2015 11:20:42 PM.
+     1>Project "D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\vorbisdec\vorbisdec_static.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Win32\Debug\vorbisdec.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\..\include /I..\..\..\..\libogg\include /I"..\..\..\..\libogg-1.2.0\include" /I..\..\..\..\ogg\include /I..\..\..\..\..\..\..\core\ogg\libogg\include /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _VC80_UPGRADE=0x0710 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Win32\Debug\\" /Fd"Win32\Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt ..\..\..\examples\decoder_example.c
+         decoder_example.c
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\examples\decoder_example.c(79): warning C4127: conditional expression is constant
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\examples\decoder_example.c(219): warning C4127: conditional expression is constant
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\examples\decoder_example.c(251): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>d:\perforce\personal\thesis\enginecore\code\internal dependencies\libvorbis\examples\decoder_example.c(264): warning C4244: '=' : conversion from 'int' to 'ogg_int16_t', possible loss of data
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Win32\Debug\vorbisdec.exe.embed.manifest.res" Win32\Debug\vorbisdec_manifest.rc 
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\vorbisdec.exe) does not match the Linker's OutputFile property value (D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\vorbisdec_static.exe). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(vorbisdec) does not match the Linker's OutputFile property value (vorbisdec_static). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\vorbisdec_static.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\..\..\..\libogg\win32\VS2010\Win32\Debug /LIBPATH:..\Win32\Debug /LIBPATH:"..\..\..\..\libogg-1.2.0\win32\VS2010\Win32\Debug" /LIBPATH:..\..\..\..\ogg\win32\VS2010\Win32\Debug /LIBPATH:..\..\..\..\..\..\..\core\ogg\libogg\win32\VS2010\Win32\Debug libogg_static.lib libvorbis_static.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Win32\Debug\vorbisdec.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\vorbisdec.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\vorbisdec.lib" /MACHINE:X86 Win32\Debug\vorbisdec.exe.embed.manifest.res
+         Win32\Debug\decoder_example.obj
+         "D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\libvorbis_static.lib"
+     1>LINK : warning LNK4098: defaultlib 'LIBCMTD' conflicts with use of other libs; use /NODEFAULTLIB:library
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Win32\Debug\vorbisdec.exe.embed.manifest" /manifest Win32\Debug\vorbisdec.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Win32\Debug\vorbisdec.exe.embed.manifest.res" Win32\Debug\vorbisdec_manifest.rc 
+       LinkEmbedManifest:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\vorbisdec_static.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\..\..\..\libogg\win32\VS2010\Win32\Debug /LIBPATH:..\Win32\Debug /LIBPATH:"..\..\..\..\libogg-1.2.0\win32\VS2010\Win32\Debug" /LIBPATH:..\..\..\..\ogg\win32\VS2010\Win32\Debug /LIBPATH:..\..\..\..\..\..\..\core\ogg\libogg\win32\VS2010\Win32\Debug libogg_static.lib libvorbis_static.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Win32\Debug\vorbisdec.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\vorbisdec.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\vorbisdec.lib" /MACHINE:X86 Win32\Debug\vorbisdec.exe.embed.manifest.res
+         Win32\Debug\decoder_example.obj
+         "D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\libvorbis_static.lib"
+     1>LINK : warning LNK4098: defaultlib 'LIBCMTD' conflicts with use of other libs; use /NODEFAULTLIB:library
+         vorbisdec_static.vcxproj -> D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\Win32\Debug\vorbisdec.exe
+       FinalizeBuildStatus:
+         Deleting file "Win32\Debug\vorbisdec.unsuccessfulbuild".
+         Touching "Win32\Debug\vorbisdec.lastbuildstate".
+     1>Done Building Project "D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libvorbis\win32\VS2010\vorbisdec\vorbisdec_static.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.05
