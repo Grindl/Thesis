@@ -14,6 +14,7 @@ public:
 	int m_sizeOfFinishedBuffer;
 
 	virtual unsigned char* compressFrame(const unsigned char* uncompressedFrame, int frameWidth, int frameHeight)=0;
+	virtual void cleanupAfterSend()=0;
 };
 
 #endif

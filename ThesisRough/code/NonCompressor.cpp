@@ -11,5 +11,11 @@ unsigned char* NonCompressor::compressFrame(const unsigned char* uncompressedFra
 	unsigned char* compressedFrame = new unsigned char[frameSize];
 	m_sizeOfFinishedBuffer = frameSize;
 	memcpy(compressedFrame, uncompressedFrame, frameSize);//HACK this is bad and disgusting
+	m_lastSentFrame = compressedFrame;
 	return compressedFrame;
+}
+
+void NonCompressor::cleanupAfterSend()
+{
+	delete[] m_lastSentFrame;
 }

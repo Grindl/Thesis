@@ -18,35 +18,25 @@
 #include "Debug Tools/ProfileSection.hpp"
 #include "JPEGCompressor.hpp"
 #include "NonCompressor.hpp"
+#include "TheoraCompressor.hpp"
 
-bool g_pulse = false;
-Vector2f cursorPositionInCamera; 
-Vector2f cursorPositionInWorld;
-User g_localUser;
 Connection* g_serverConnection;
-std::vector<User> g_users;
-Entity g_flag;
 ConnectionInitializationServer* g_websocketServer;
 float g_timeSinceLastSentFrame = 0.f;
+int g_frameNumber = 0;
+StatisticsArray g_statistics;
 
-bool ChangeServer(std::string addressAndPort)
-{
-	std::vector<std::string> serverAddrSplit = StringUtility::StringSplit(addressAndPort, ":", " ");
-	g_serverConnection = new Connection(serverAddrSplit[0].c_str(), serverAddrSplit[1].c_str());
-	CS6Packet loginPacket;
-	loginPacket.packetType = TYPE_Acknowledge;
-	loginPacket.packetNumber = 0;
-	loginPacket.data.acknowledged.packetType = TYPE_Acknowledge;
-	g_serverConnection->sendPacket(loginPacket);
-	return g_serverConnection != NULL;
-}
+bool g_hasSentHeader = false;
 
-bool ChangeColor(std::string rgbaColor)
+bool WriteStatsToFile(std::string args)
 {
-	g_localUser.m_unit.m_color = Color4f(rgbaColor);
+	std::string outData = g_statistics.toCSV();
+	FILE* fileOut = fopen(args.c_str(), "wb");
+	fwrite(outData.c_str(), outData.length(), 1, fileOut);
+	fclose(fileOut);
+	//TODO use the args for the filename and write this out to a .csv file
 	return true;
 }
-
 
 void GameMain::mouseUpdate()
 {
@@ -68,7 +58,6 @@ GameMain::GameMain()
 {
 	
 	m_renderer = Renderer();
-	//debugUnitTest(m_elements);
 	//delete m_renderer.m_singleFrameBuffer; HACK memory leak
 	m_renderer.m_singleFrameBuffer = new RenderToMemoryBuffer();
 	m_internalTime = 0.f;
@@ -86,50 +75,10 @@ GameMain::GameMain()
 	m_console.m_log.appendLine("Do not be alarmed or concerned");
 	m_console.m_log.appendLine("This is only a test");
 
+	CommandParser::RegisterCommand("writestats", WriteStatsToFile);
+
 	UnitTestXMLParser(".\\Data\\UnitTest.xml");
 	unitTestEventSystem();
-	//g_serverConnection = new Connection("129.119.246.221", "5000");
-	g_serverConnection = new Connection("127.0.0.1", "8080");
-	g_localUser = User();
-	g_localUser.m_unit = Entity();
-	g_localUser.m_unit.m_color = Color4f(0.2f, 1.0f, 0.2f, 1.f);
-	g_localUser.m_userType = USER_LOCAL;
-	g_localUser.m_unit.m_position = Vector2f(0,0);
-	g_flag.m_color = Color4f(0.1f, 0.1f, 0.1f, 1.f);
-	CommandParser::RegisterCommand("connect", ChangeServer);
-	CommandParser::RegisterCommand("color", ChangeColor);
-
-	/*Texture* textureCatalog = new Texture(".\\Data\\cobblestonesDiffuse.png");
-	Texture* normalMap = new Texture(".\\Data\\cobblestonesNormal.png");
-	Texture* specularMap = new Texture(".\\Data\\cobblestonesSpecular.png");
-	Texture* emissiveMap = new Texture(".\\Data\\cobblestonesEmissive.png");
-	Element* theBox = new DebugAABB3(Vector3f(-1, -1, -1), COLOR::WHITE, Vector3f(1, 1, 1), COLOR::GREY, 200.f, true);
-	((DebugAABB3*)theBox)->m_material.m_diffuseID = textureCatalog->m_openGLTextureID;
-	((DebugAABB3*)theBox)->m_material.m_useDiffuse = true;
-	//((DebugAABB3*)theBox)->m_material.m_useShaderProgram = false;
-	//((DebugAABB3*)theBox)->m_material.m_normalID = normalMap->m_openGLTextureID;
-	//((DebugAABB3*)theBox)->m_material.m_useNormal = true;
-	//((DebugAABB3*)theBox)->m_material.m_useVBO = true;
-	//((DebugAABB3*)theBox)->m_material.m_specularID = specularMap->m_openGLTextureID;
-	//((DebugAABB3*)theBox)->m_material.m_useSpecular = true;
-	//((DebugAABB3*)theBox)->m_material.m_emissiveID = emissiveMap->m_openGLTextureID;
-	//((DebugAABB3*)theBox)->m_material.m_useEmissive = true;
-
-	m_elements.push_back(theBox);
-
-	Light* primaryLight = new Light(LOCAL_AMBIENTLIGHT);
-	primaryLight->m_origin = Vector3f(0,0,2);
-	primaryLight->m_firstColor = Color4f(1,0,0,1);
-	primaryLight->genVBO();
-	m_elements.push_back(primaryLight);
-	m_renderer.m_lightManager.m_lights[0] = primaryLight;
-	Light* secondaryLight = new Light(LOCAL_POINTLIGHT);
-	secondaryLight->m_origin = Vector3f(0,0,2);
-	secondaryLight->m_firstColor = Color4f(0,1,0,1);
-	secondaryLight->m_movingLight = true;
-	secondaryLight->genVBO();
-	m_elements.push_back(secondaryLight);
-	m_renderer.m_lightManager.m_lights[1] = secondaryLight;*/
 
 	initTextures();
 
@@ -160,10 +109,34 @@ GameMain::GameMain()
 
 
 	g_websocketServer = new ConnectionInitializationServer();
+
+	if(COMPRESSION_TYPE == "NONE")
+	{
+		m_compressor = new NonCompressor();
+	}
+	else if(COMPRESSION_TYPE == "JPEG")
+	{
+		m_compressor = new JPEGCompressor();
+	}
+	else if(COMPRESSION_TYPE == "THEORA")
+	{
+		m_compressor = new TheoraCompressor();
+	}
+	else
+	{
+		m_compressor = new NonCompressor(); //semi-hackey fallback
+	}
 }
 
 void GameMain::update(float deltaTime)
 {
+	StatisticsNode lastFrameNode;
+	lastFrameNode.m_compressionTime = ProfileSection::s_accumulatedTimeInSections["Compression"];
+	lastFrameNode.m_frameNumber = g_frameNumber;
+	lastFrameNode.m_framerateFPS = 1.f/deltaTime;
+	lastFrameNode.m_gpuTime = ProfileSection::s_accumulatedTimeInSections["GPU"];
+	lastFrameNode.m_networkTime = ProfileSection::s_accumulatedTimeInSections["Network"];
+
 	ProfileSection::Preframe();
 
 	bool forwardVelocity = m_IOHandler.m_keyIsDown['W'];
@@ -173,10 +146,6 @@ void GameMain::update(float deltaTime)
 
 	//HACK
 	const float SPEED_OF_CAMERA = 5.f;
-
-	//g_localUser.m_unit.m_target.x += (rightwardVelocity - leftwardVelocity)*SPEED_OF_CAMERA*deltaTime;
-	//g_localUser.m_unit.m_target.y += (forwardVelocity - backwardVelocity)*SPEED_OF_CAMERA*deltaTime;
-	//g_localUser.update(deltaTime);
 
 	m_worldCamera.m_position.x += (cos(m_worldCamera.m_orientationDegrees.x*(PI/180.f))*(rightwardVelocity - leftwardVelocity)-sin(m_worldCamera.m_orientationDegrees.x*(PI/180.f))*(forwardVelocity - backwardVelocity))*SPEED_OF_CAMERA*deltaTime;
 	m_worldCamera.m_position.y += (sin(m_worldCamera.m_orientationDegrees.x*(PI/180.f))*(rightwardVelocity - leftwardVelocity)+cos(m_worldCamera.m_orientationDegrees.x*(PI/180.f))*(forwardVelocity - backwardVelocity))*SPEED_OF_CAMERA*deltaTime;
@@ -194,38 +163,31 @@ void GameMain::update(float deltaTime)
 		m_elements[ii]->update(deltaTime);
 	}
 
-	//TODO this should be instantiated upon construction
-	CompressionInterface* compressor;
 
-	if(COMPRESSION_TYPE == "NONE")
-	{
-		compressor = new NonCompressor();
-	}
-	else if(COMPRESSION_TYPE == "JPEG")
-	{
-		compressor = new JPEGCompressor();
-	}
-	else
-	{
-		compressor = new NonCompressor(); //semi-hackey fallback
-	}
-
+	ProfileSection::StartProfile("Compression");
 	//TODO this allocates new memory and some of it is unused
-	unsigned char* compressedFrame = compressor->compressFrame(((RenderToMemoryBuffer*)m_renderer.m_singleFrameBuffer)->m_currentFrameInMemory, SCREEN_WIDTH, SCREEN_HEIGHT);
+	unsigned char* compressedFrame = m_compressor->compressFrame(((RenderToMemoryBuffer*)m_renderer.m_singleFrameBuffer)->m_currentFrameInMemory, SCREEN_WIDTH, SCREEN_HEIGHT);
+	ProfileSection::StopProfile("Compression");
+
 
 	g_timeSinceLastSentFrame+= deltaTime;
 
 	ProfileSection::StartProfile("Network");
-	if(g_timeSinceLastSentFrame > 0.01f)
+	if(g_activeWebSocket != 0 && !g_hasSentHeader && COMPRESSION_TYPE == "THEORA")
 	{
-		g_websocketServer->sendFrameToClient(compressedFrame, compressor->m_sizeOfFinishedBuffer);
+		g_hasSentHeader = true;
+		g_websocketServer->sendFrameToClient(((TheoraCompressor*)m_compressor)->m_headerBuffer, ((TheoraCompressor*)m_compressor)->m_headerBufferLength);
+	}
+	if(g_timeSinceLastSentFrame > 0.01f && (g_hasSentHeader || COMPRESSION_TYPE != "THEORA"))
+	{
+		g_websocketServer->sendFrameToClient(compressedFrame, m_compressor->m_sizeOfFinishedBuffer);
 		//g_websocketServer->sendFrameToClient((((RenderToMemoryBuffer*)m_renderer.m_singleFrameBuffer)->m_currentFrameInMemory), SCREEN_WIDTH * SCREEN_HEIGHT * 4);
 		g_timeSinceLastSentFrame = 0.f;
 	}
 	ProfileSection::StopProfile("Network");
-
-	delete[] compressedFrame;
-	delete compressor;
+	lastFrameNode.m_frameSizeBytes = m_compressor->m_sizeOfFinishedBuffer;
+	//delete[] compressedFrame;
+	m_compressor->cleanupAfterSend();
 
 	std::map<Vector2i, Chunk*>::iterator vboUpdaterIndex = m_chunkMap.begin();
 	bool updatedOneVbo = false;
@@ -239,7 +201,7 @@ void GameMain::update(float deltaTime)
 		vboUpdaterIndex++;
 	}
 
-	//m_world.update(deltaTime);
+	g_statistics.m_collectedData.push_back(lastFrameNode);
 }
 
 void GameMain::render()
@@ -247,8 +209,6 @@ void GameMain::render()
 	m_renderer.m_singleFrameBuffer->preRenderStep();
 
 	m_worldCamera.preRenderStep();
-
-	//m_world.render(m_playerController.m_possessedActor);
 
 	for (unsigned int ii = 0; ii < m_elements.size(); ii++)
 	{
@@ -327,6 +287,7 @@ void GameMain::render()
 
 	glPopMatrix();
 
+	g_frameNumber++;
 }
 
 bool GameMain::keyDownEvent(unsigned char asKey)
@@ -403,12 +364,10 @@ bool GameMain::mouseEvent(unsigned int eventType)
 	{
 	case WM_LBUTTONDOWN:
 		{
-			//m_playerController.pathToLocation(cursorPositionInWorld);
 			break;
 		}
 	case WM_RBUTTONDOWN:
 		{
-			//m_playerController.attackTarget(cursorPositionInWorld);
 			break;
 		}
 	}

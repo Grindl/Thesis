@@ -177,11 +177,27 @@ function strToUTF8Arr(sDOMStr) {
 window.URL = window.URL || window.webkitURL;
 var canvas = document.getElementById("CanvasStream");
 var canvasContext = canvas.getContext('2d');
-//canvasContext.scale(1, -1);
-canvasContext.rotate(90*Math.PI/180);
+canvas.style.display = "none";
+var renderTarget = document.getElementById("RenderTarget");
+var renderContext = renderTarget.getContext("2d");
+
 var profiler = document.createElement('div');
 document.body.appendChild(profiler);
 var TimeOfLastFrame = window.performance.now();
+var totalTimeElapsed = 5; //HACK this is based on the assumption that 5 seconds of data are sent to video before playing
+var timeSpentProcessingSinceLastProfilerUpdate = 0;
+var numFramesSinceLastProfilerUpdate = 0;
+var bandwidthSinceLastProfilerUpdate = 0;
+var image = document.getElementById("ImageStream");
+
+var video = document.getElementById("VideoStream");
+var streamedVideoFile = new Blob([], {type : "video/ogg"});
+
+var streamedVideoURL = window.URL.createObjectURL(streamedVideoFile);
+var existingVideo = new Uint8Array();
+
+window.URL.revokeObjectURL = window.URL.revokeObjectURL || window.webkitURL.revokeObjectURL;
+
 function WebSocketTest() {
     if ("WebSocket" in window) {
         var ws = new WebSocket("ws://" + serverAddress + "/ws");
@@ -189,12 +205,19 @@ function WebSocketTest() {
         ws.onopen = function () {
             ws.send("Hello, world!");
             TimeOfLastFrame = window.performance.now();
+            updatePerformance();
         };
         ws.onmessage = function (evt) {
             var startTime = window.performance.now();
             var TimeSinceLastFrame = window.performance.now() - TimeOfLastFrame;
+            totalTimeElapsed += TimeSinceLastFrame;
             TimeOfLastFrame = window.performance.now();
             var msg = evt.data;
+
+            numFramesSinceLastProfilerUpdate++;
+            bandwidthSinceLastProfilerUpdate += msg.byteLength;
+
+
             if (compressionType == "NONE") {
                 var currentFrameImageData = canvasContext.createImageData(640, 480);
                 var frameAsBytes = new Uint8Array(msg);
@@ -202,17 +225,49 @@ function WebSocketTest() {
                     currentFrameImageData.data[i] = frameAsBytes[i];
                 };
                 canvasContext.putImageData(currentFrameImageData, 0, 0);
+                renderContext.save();
+                renderContext.scale(1, -1);
+                renderContext.drawImage(canvas, 0, -480);
+                renderContext.restore();
 
             }
             else if (compressionType == "JPEG") {
                 var frameAsBytes = new Uint8Array(msg);
-                var image = document.getElementById("ImageStream");
-                image.src = 'data:image/jpeg;base64,' + base64EncArr(frameAsBytes);
+                /*image.src = 'data:image/jpeg;base64,' + base64EncArr(frameAsBytes);
+                image.style.display = "none";*/
+                var frameAsBlob = new Blob([frameAsBytes], { type: "image/jpeg" });
+                var imageURL = window.URL.createObjectURL(frameAsBlob);
+                image.src = imageURL;
+                //image.style.display = "none";*/
+                //NOTE: this is dramatically faster on the client side (~2 orders of magnitude) but it doesn't interact properly with the canvas
+                renderContext.save();
+                renderContext.scale(1, -1);
+                renderContext.drawImage(image, 0, -480);
+                renderContext.restore();
             }
+            else if (compressionType == "THEORA") {
+                var frameAsBytes = new Uint8Array(msg);
 
-            profiler.innerHTML = "Time Elapsed: " + ((window.performance.now() - startTime) * .001) + " s"
-                + "</br>Time Since Last Frame: " + (TimeSinceLastFrame * .001) + " s"
-                + "</br>Bandwidth: " + (msg.byteLength / TimeSinceLastFrame) + " KBps";
+                window.URL.revokeObjectURL(video.src); //frees up the URL to prevent pollution
+                var newVideoFile = new Blob([streamedVideoFile, frameAsBytes], { type: "video/ogg" });
+                window.URL.revokeObjectURL(streamedVideoFile)
+                streamedVideoFile = newVideoFile;
+                streamedVideoURL = window.URL.createObjectURL(streamedVideoFile);
+                video.src = streamedVideoURL;
+                video.currentTime = totalTimeElapsed;
+
+                //video.src = 'data:video/ogg;base64,' + base64EncArr(frameAsBytes);
+
+                /*var compositeArray = new Uint8Array(frameAsBytes.byteLength + existingVideo.byteLength);
+                compositeArray.set(existingVideo, 0);
+                compositeArray.set(frameAsBytes, existingVideo.byteLength);
+                existingVideo = compositeArray;
+                video.src = 'data:video/ogg;base64,' + base64EncArr(existingVideo);*/
+            }
+            timeSpentProcessingSinceLastProfilerUpdate += (window.performance.now() - startTime);
+            /*profiler.innerHTML = "Time Elapsed: " + ((window.performance.now() - startTime) * .001) + " s"
+            + "</br>Time Since Last Frame: " + (TimeSinceLastFrame * .001) + " s"
+            + "</br>Bandwidth: " + (msg.byteLength / TimeSinceLastFrame) + " KBps";*/
         };
         ws.onclose = function () {
             alert("WebSocket closed.");
@@ -225,4 +280,13 @@ function WebSocketTest() {
 
 
 
- 
+var updatePerformance = function () {
+
+    profiler.innerHTML = "Time Spent Processing: " + (timeSpentProcessingSinceLastProfilerUpdate * 0.1) + " %"
+                + "</br>Frames Per Second: " + numFramesSinceLastProfilerUpdate + ""
+                + "</br>Bandwidth: " + (bandwidthSinceLastProfilerUpdate/1000000.0) + " MiBps";
+    numFramesSinceLastProfilerUpdate = 0;
+    bandwidthSinceLastProfilerUpdate = 0;
+    timeSpentProcessingSinceLastProfilerUpdate = 0;
+    setTimeout(updatePerformance, 1000);
+}

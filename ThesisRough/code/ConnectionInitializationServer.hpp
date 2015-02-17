@@ -44,8 +44,10 @@ public:
 		ostr << "</head>\n";
 		ostr << "<body>\n";
 		ostr << "  <h1>Jeff Listman Thesis Proof of Concept</h1>\n";
+		ostr << "	<canvas id='RenderTarget' width='640' height='480'></canvas>\n";
 		ostr << "	<canvas id='CanvasStream' width='640' height='480'></canvas>\n";
-		ostr << "	<img id='ImageStream' src=''>\n";
+		ostr << "	<img id='ImageStream' src=''></img>\n";
+		ostr << "	<video id='VideoStream' src='somefile.ogv' type='video/ogg' codecs='theora' autoplay='autoplay'></video>\n"; //
 		ostr << "<script type=\"text/javascript\">\n";
 		ostr << "var serverAddress = \""<<request.serverAddress().toString()<<"\";\n";
 		ostr << "var compressionType = \""<<COMPRESSION_TYPE<<"\";\n";//HACK, this should be based on a const or parameter for ease

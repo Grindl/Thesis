@@ -13,6 +13,8 @@
 #include "Camera.hpp"
 #include "User.hpp"
 #include "Chunk.hpp"
+#include "CompressionInterface.hpp"
+#include "StatisticsArray.hpp"
 
 class Player;
 
@@ -33,6 +35,7 @@ public:
 	//std::vector<Vector2i> m_chunksOnFile;
 	Vector2i m_bottomLeftChunk;
 	Vector2i m_topRightChunk;
+	CompressionInterface* m_compressor;
 
 	virtual void update(float deltaTime);
 	virtual void render();
