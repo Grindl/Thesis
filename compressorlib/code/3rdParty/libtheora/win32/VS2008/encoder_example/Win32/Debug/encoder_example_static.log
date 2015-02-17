@@ -1,0 +1,8 @@
+﻿Build started 2/8/2015 11:23:20 PM.
+     1>Project "D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libtheora\win32\VS2008\encoder_example\encoder_example_static.vcxproj" on node 3 (build target(s)).
+     1>C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.Targets(1363,5): error MSB3204: The project file "..\libtheora\libtheora_static.vcproj" is in the ".vcproj" file format, which MSBuild no longer supports. Please convert the project by opening it in the Visual Studio IDE or running the conversion tool, or use MSBuild 3.5 or earlier to build it.
+     1>Done Building Project "D:\Perforce\Personal\Thesis\EngineCore\Code\Internal Dependencies\libtheora\win32\VS2008\encoder_example\encoder_example_static.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.02
