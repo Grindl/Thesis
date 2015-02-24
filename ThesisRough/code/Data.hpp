@@ -40,6 +40,6 @@ static const cubedata CUBE_TABLE[] = {
 	{false, 1.f, 0.1f, 0.1f, Vector2f(2.f*TEXTURE_CATALOG_DIVISIONS, 0.f*TEXTURE_CATALOG_DIVISIONS),		0, 0}
 };
 
-static const char* COMPRESSION_TYPE = "JPEG";
+static const char* COMPRESSION_TYPE = "RLE";
 
 #endif

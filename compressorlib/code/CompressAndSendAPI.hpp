@@ -6,7 +6,7 @@
 /*
 Initializes the compression system, including any necessary stream states for video compression.
 Arguments:
-compressionType - a null terminated string, either NONE, JPEG, or THEORA, representing the type of compression to use
+compressionType - a null terminated string, either NONE, JPEG, PNG, RLE, or THEORA, representing the type of compression to use
 imageWidthPixels - the width of the rendering frame in pixels
 imageHeightPixels - the height of the rendering frame in pixels
 */
@@ -52,5 +52,13 @@ Fails silently if no client has connected yet.
 */
 extern void SendFrameToClient();
 
+/*
+Receives a frame of input from the client.
+Arguments:
+out_receivedFrame - a pointer to a location to store the received data
+maxSizeOfReceivedFrame - the maximum number of bytes the structure pointed to by out_receivedFrame can contain
+Returns: the length of the frame in bytes; 0 if no data received or no connection
+*/
+extern int ReceiveFrameFromClient(unsigned char* out_receivedFrame, size_t maxSizeOfReceivedFrame);
 
 #endif

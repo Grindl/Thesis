@@ -82,7 +82,14 @@ public:
 			int flags;
 			int n;
 
-			n = g_activeWebSocket->receiveFrame(buffer, sizeof(buffer), flags);
+			try
+			{
+				n = g_activeWebSocket->receiveFrame(buffer, sizeof(buffer), flags);
+			}
+			catch(Poco::TimeoutException e)
+			{
+				n = 0;
+			}
 
 		}
 		catch (WebSocketException& exc)
@@ -131,6 +138,7 @@ public:
 	int m_port;
 
 	int sendFrameToClient(unsigned char* imageFrame, int imageBufferSize);
+	int pollFrameFromClient(unsigned char* inputFrame, int inputFrameMaxSize);
 };
 
 ConnectionInitializationServer::ConnectionInitializationServer(int port)
@@ -153,13 +161,48 @@ int ConnectionInitializationServer::sendFrameToClient(unsigned char* imageFrame,
 {
 	if(g_activeWebSocket != 0)
 	{
-		g_activeWebSocket->sendFrame(imageFrame, imageBufferSize, WebSocket::FRAME_BINARY);
+		try
+		{
+			g_activeWebSocket->sendFrame(imageFrame, imageBufferSize, WebSocket::FRAME_BINARY);
+		}
+		catch(Poco::TimeoutException e)
+		{
+			return -1;
+		}
+		catch(Poco::IOException e)
+		{
+			//intentionally ignored
+		}
+
 		return 0;
 	}
 	else
 	{
 		return -1;
 	}
+}
+
+int ConnectionInitializationServer::pollFrameFromClient(unsigned char* out_inputFrame, int inputFrameMaxSize)
+{
+	if(g_activeWebSocket != 0)
+	{
+		int flags;
+		int result;
+		try
+		{
+			result = g_activeWebSocket->receiveFrame(out_inputFrame, inputFrameMaxSize, flags);
+		}
+		catch(Poco::TimeoutException e)
+		{
+			result = 0;
+		}
+		catch(Poco::IOException e)
+		{
+			result = 0;
+		}
+		return result;
+	}
+	else return 0;
 }
 
 #endif

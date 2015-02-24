@@ -11,6 +11,7 @@ class CompressionInterface
 public:
 	//CompressionInterface()=0;
 
+	unsigned char* m_lastSentFrame;
 	int m_sizeOfFinishedBuffer;
 
 	virtual unsigned char* compressFrame(const unsigned char* uncompressedFrame, int frameWidth, int frameHeight)=0;

@@ -19,8 +19,6 @@ using namespace Poco::Net;
 WebSocket* g_activeWebSocket = 0;
 
 class PageRequestHandler: public HTTPRequestHandler
-	/// Return a HTML document with some JavaScript creating
-	/// a WebSocket connection.
 {
 public:
 	void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response)
@@ -61,12 +59,10 @@ public:
 
 
 class WebSocketRequestHandler: public HTTPRequestHandler
-	/// Handle a WebSocket connection.
 {
 public:
 	void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response)
 	{
-		//Application& app = Application::instance();
 		try
 		{
 			if(g_activeWebSocket != 0)
@@ -74,17 +70,20 @@ public:
 				delete g_activeWebSocket;
 			}
 			g_activeWebSocket = new WebSocket(request, response);
-			//WebSocket ws(request, response);
-			//app.logger().information("WebSocket connection established.");
+			g_activeWebSocket->setBlocking(false);
+
 			char buffer[1024];
 			int flags;
 			int n;
-			//do
-			//{
+
+			try
+			{
 				n = g_activeWebSocket->receiveFrame(buffer, sizeof(buffer), flags);
-				//g_activeWebSocket->sendFrame(buffer, n, flags);
-			//}
-			//while (n > 0 || (flags & WebSocket::FRAME_OP_BITMASK) != WebSocket::FRAME_OP_CLOSE);
+			}
+			catch(Poco::TimeoutException e)
+			{
+				n = 0;
+			}
 		}
 		catch (WebSocketException& exc)
 		{
@@ -128,6 +127,7 @@ public:
 	int m_port;
 
 	int sendFrameToClient(unsigned char* imageFrame, int imageBufferSize);
+	int pollFrameFromClient(unsigned char* inputFrame, int inputFrameSize);
 };
 
 ConnectionInitializationServer::ConnectionInitializationServer()
@@ -146,17 +146,52 @@ ConnectionInitializationServer::~ConnectionInitializationServer()
 	m_HTTPServer->stop();
 }
 
-int ConnectionInitializationServer::sendFrameToClient(unsigned char* imageFrame, int imageBufferSize)
+int ConnectionInitializationServer::sendFrameToClient(unsigned char* const imageFrame, const int imageBufferSize)
 {
 	if(g_activeWebSocket != 0)
 	{
-		g_activeWebSocket->sendFrame(imageFrame, imageBufferSize, WebSocket::FRAME_BINARY);
+		try
+		{
+			g_activeWebSocket->sendFrame(imageFrame, imageBufferSize, WebSocket::FRAME_BINARY);
+		}
+		catch(Poco::TimeoutException e)
+		{
+			return -1;
+		}
+		catch(Poco::IOException e)
+		{
+			//intentionally ignored
+		}
+		
 		return 0;
 	}
 	else
 	{
 		return -1;
 	}
+}
+
+int ConnectionInitializationServer::pollFrameFromClient(unsigned char* out_inputFrame, int out_inputFrameSize)
+{
+	if(g_activeWebSocket != 0)
+	{
+		int flags;
+		int result;
+		try
+		{
+			result = g_activeWebSocket->receiveFrame(out_inputFrame, out_inputFrameSize, flags);
+		}
+		catch(Poco::TimeoutException e)
+		{
+			result = 0;
+		}
+		catch(Poco::IOException e)
+		{
+			result = 0;
+		}
+		return result;
+	}
+	else return 0;
 }
 
 #endif

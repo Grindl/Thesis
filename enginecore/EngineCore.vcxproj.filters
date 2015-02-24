@@ -351,6 +351,9 @@
     <ClInclude Include="Code\Internal Dependencies\libtheora\lib\quant.h">
       <Filter>Internal Dependencies\Theora</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Internal Dependencies\lodepng.h">
+      <Filter>Internal Dependencies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Systems\IOHandler.cpp">
@@ -592,6 +595,9 @@
     </ClCompile>
     <ClCompile Include="Code\Internal Dependencies\libtheora\lib\tokenize.c">
       <Filter>Internal Dependencies\Theora</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Internal Dependencies\lodepng.cpp">
+      <Filter>Internal Dependencies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

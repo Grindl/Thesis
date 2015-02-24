@@ -177,7 +177,12 @@ function strToUTF8Arr(sDOMStr) {
 window.URL = window.URL || window.webkitURL;
 var canvas = document.getElementById("CanvasStream");
 var canvasContext = canvas.getContext('2d');
-canvas.style.display = "none";
+var currentFrameImageData = canvasContext.createImageData(640, 480);
+for (var i = 0; i < currentFrameImageData.data.length; i++) {
+currentFrameImageData.data[i] = 255;//to make sure we have something
+};
+canvasContext.putImageData(currentFrameImageData, 0, 0);
+//canvas.style.display = "none";
 var renderTarget = document.getElementById("RenderTarget");
 var renderContext = renderTarget.getContext("2d");
 
@@ -198,16 +203,24 @@ var existingVideo = new Uint8Array();
 
 window.URL.revokeObjectURL = window.URL.revokeObjectURL || window.webkitURL.revokeObjectURL;
 
+var keyEvents = new Uint8Array(256);
+var numKeyEventsSinceLastSend = 0;
+
 function WebSocketTest() {
     if ("WebSocket" in window) {
         var ws = new WebSocket("ws://" + serverAddress + "/ws");
         ws.binaryType = 'arraybuffer';
         ws.onopen = function () {
-            ws.send("Hello, world!");
+            //ws.send("Hello, world!");
             TimeOfLastFrame = window.performance.now();
             updatePerformance();
         };
         ws.onmessage = function (evt) {
+
+            keyEvents[numKeyEventsSinceLastSend * 2] = 0; //null terminating the key events
+            ws.send(keyEvents);
+            numKeyEventsSinceLastSend = 0;
+
             var startTime = window.performance.now();
             var TimeSinceLastFrame = window.performance.now() - TimeOfLastFrame;
             totalTimeElapsed += TimeSinceLastFrame;
@@ -231,11 +244,61 @@ function WebSocketTest() {
                 renderContext.restore();
 
             }
+            else if (compressionType == "RLE") {
+                var frameAsBytes = new Uint8Array(msg);
+                //var frameAsInts = new Uint32Array(frameAsBytes, 0, 8);
+                var greenChannelStart = frameAsBytes[0] + 256 * frameAsBytes[1] + 256 * 256 * frameAsBytes[2] + 256 * 256 * 256 * frameAsBytes[3]; //ugly way of dealing with endianness and casting
+                var blueChannelStart = frameAsBytes[4] + 256 * frameAsBytes[5] + 256 * 256 * frameAsBytes[6] + 256 * 256 * 256 * frameAsBytes[7];
+                var currentFrameImageData = canvasContext.createImageData(640, 480);
+                for (var i = 0; i < currentFrameImageData.data.length; i++) {
+                    currentFrameImageData.data[i] = 255; //to make sure we have something
+                };
+                var pixelMask = 0xf8;
+                var runLengthMask = 0x7;
+                var imageIndex = 0;
+                for (var frameIndex = 8; frameIndex < frameAsBytes.length; frameIndex++) {
+                    var runLength = frameAsBytes[frameIndex] & runLengthMask;
+                    var pixelData = frameAsBytes[frameIndex] & pixelMask;
+                    if (runLength == 7) {
+                        frameIndex++;
+                        runLength = frameAsBytes[frameIndex];
+                    }
+                    for (var i = 0; i < runLength; i++) {
+                        currentFrameImageData.data[imageIndex] = pixelData;
+                        imageIndex += 4;
+                    }
+                    if (frameIndex == greenChannelStart - 1) {
+                        imageIndex = 1;
+                    }
+                    else if (frameIndex == blueChannelStart - 1) {
+                        imageIndex = 2;
+                    }
+                }
+                canvasContext.putImageData(currentFrameImageData, 0, 0);
+                renderContext.save();
+                renderContext.scale(1, -1);
+                renderContext.drawImage(canvas, 0, -480);
+                renderContext.restore();
+            }
             else if (compressionType == "JPEG") {
                 var frameAsBytes = new Uint8Array(msg);
                 /*image.src = 'data:image/jpeg;base64,' + base64EncArr(frameAsBytes);
                 image.style.display = "none";*/
                 var frameAsBlob = new Blob([frameAsBytes], { type: "image/jpeg" });
+                var imageURL = window.URL.createObjectURL(frameAsBlob);
+                image.src = imageURL;
+                //image.style.display = "none";*/
+                //NOTE: this is dramatically faster on the client side (~2 orders of magnitude) but it doesn't interact properly with the canvas
+                renderContext.save();
+                renderContext.scale(1, -1);
+                renderContext.drawImage(image, 0, -480);
+                renderContext.restore();
+            }
+            else if (compressionType == "PNG") {
+                var frameAsBytes = new Uint8Array(msg);
+                /*image.src = 'data:image/png;base64,' + base64EncArr(frameAsBytes);
+                image.style.display = "none";*/
+                var frameAsBlob = new Blob([frameAsBytes], { type: "image/png" });
                 var imageURL = window.URL.createObjectURL(frameAsBlob);
                 image.src = imageURL;
                 //image.style.display = "none";*/
@@ -281,7 +344,7 @@ function WebSocketTest() {
 
 
 var updatePerformance = function () {
-
+    //ws.send("Hello, world!");
     profiler.innerHTML = "Time Spent Processing: " + (timeSpentProcessingSinceLastProfilerUpdate * 0.1) + " %"
                 + "</br>Frames Per Second: " + numFramesSinceLastProfilerUpdate + ""
                 + "</br>Bandwidth: " + (bandwidthSinceLastProfilerUpdate/1000000.0) + " MiBps";
@@ -290,3 +353,22 @@ var updatePerformance = function () {
     timeSpentProcessingSinceLastProfilerUpdate = 0;
     setTimeout(updatePerformance, 1000);
 }
+
+
+var onKeyDown = function (keyPressed) {
+    var eventIndex = numKeyEventsSinceLastSend * 2;
+    keyEvents[eventIndex] = keyPressed.keyCode;
+    keyEvents[eventIndex + 1] = 1;
+    numKeyEventsSinceLastSend++;
+}
+
+var onKeyUp = function (keyPressed) {
+    var eventIndex = numKeyEventsSinceLastSend * 2;
+    keyEvents[eventIndex] = keyPressed.keyCode;
+    keyEvents[eventIndex + 1] = 0;
+    numKeyEventsSinceLastSend++;
+}
+
+window.addEventListener('keydown', onKeyDown);
+
+window.addEventListener('keyup', onKeyUp);

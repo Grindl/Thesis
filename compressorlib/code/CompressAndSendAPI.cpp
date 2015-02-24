@@ -2,6 +2,8 @@
 
 #include "TheoraCompressor.hpp"
 #include "JPEGCompressor.hpp"
+#include "RLECompressor.hpp"
+#include "PNGCompressor.hpp"
 #include "NonCompressor.hpp"
 #include "ConnectionInitializationServer.hpp"
 
@@ -29,6 +31,14 @@ void InitCompressionSystem(const char* compressionType, const unsigned int image
 	else if(strcmp(compressionType, "JPEG") == 0)
 	{
 		g_compressor = new JPEGCompressor();
+	}
+	else if(strcmp(compressionType, "PNG") == 0)
+	{
+		g_compressor = new PNGCompressor();
+	}
+	else if(strcmp(compressionType, "RLE") == 0)
+	{
+		g_compressor = new RLECompressor();
 	}
 	else if(strcmp(compressionType, "THEORA") == 0)
 	{
@@ -61,4 +71,10 @@ void InitWebsocketServer(unsigned int portNumber)
 void SendFrameToClient()
 {
 	g_websocketServer->sendFrameToClient(g_compressor->m_currentFrameBuffer, g_compressor->m_sizeOfFinishedBuffer);
+}
+
+int ReceiveFrameFromClient(unsigned char* out_receivedFrame, size_t maxSizeOfReceivedFrame)
+{
+	int numReceivedBytes = g_websocketServer->pollFrameFromClient(out_receivedFrame, maxSizeOfReceivedFrame);
+	return numReceivedBytes;
 }

@@ -71,6 +71,7 @@
     <ClInclude Include="Code\Internal Dependencies\libtheora\lib\modedec.h" />
     <ClInclude Include="Code\Internal Dependencies\libtheora\lib\ocintrin.h" />
     <ClInclude Include="Code\Internal Dependencies\libtheora\lib\quant.h" />
+    <ClInclude Include="Code\Internal Dependencies\lodepng.h" />
     <ClInclude Include="Code\Internal Dependencies\pugiconfig.hpp" />
     <ClInclude Include="Code\Internal Dependencies\pugixml.hpp" />
     <ClInclude Include="Code\Internal Dependencies\stb_image.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Code\Internal Dependencies\libtheora\lib\rate.c" />
     <ClCompile Include="Code\Internal Dependencies\libtheora\lib\state.c" />
     <ClCompile Include="Code\Internal Dependencies\libtheora\lib\tokenize.c" />
+    <ClCompile Include="Code\Internal Dependencies\lodepng.cpp" />
     <ClCompile Include="Code\Internal Dependencies\pugixml.cpp" />
     <ClCompile Include="Code\Internal Dependencies\stb_image.c" />
     <ClCompile Include="Code\Internal Dependencies\TangentBitangentSample.cpp" />

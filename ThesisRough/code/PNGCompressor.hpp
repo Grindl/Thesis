@@ -1,21 +1,18 @@
 #pragma once
-#ifndef include_JPEGCOMPRESSOR
-#define include_JPEGCOMPRESSOR
+#ifndef include_PNGCOMPRESSOR
+#define include_PNGCOMPRESSOR
 
 #include "CompressionInterface.hpp"
 
 
-class JPEGCompressor : public CompressionInterface
+class PNGCompressor : public CompressionInterface
 {
 public:
-	JPEGCompressor();
+	PNGCompressor();
 
-	//returns a pointer to heap-allocated byte-stream
 	virtual unsigned char* compressFrame(const unsigned char* uncompressedFrame, int frameWidth, int frameHeight);
 	virtual void cleanupAfterSend();
-
 };
-
 
 
 #endif

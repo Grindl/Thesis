@@ -19,6 +19,8 @@
 #include "JPEGCompressor.hpp"
 #include "NonCompressor.hpp"
 #include "TheoraCompressor.hpp"
+#include "RLECompressor.hpp"
+#include "PNGCompressor.hpp"
 
 Connection* g_serverConnection;
 ConnectionInitializationServer* g_websocketServer;
@@ -114,9 +116,17 @@ GameMain::GameMain()
 	{
 		m_compressor = new NonCompressor();
 	}
+	else if(COMPRESSION_TYPE == "RLE")
+	{
+		m_compressor = new RLECompressor();
+	}
 	else if(COMPRESSION_TYPE == "JPEG")
 	{
 		m_compressor = new JPEGCompressor();
+	}
+	else if(COMPRESSION_TYPE == "PNG")
+	{
+		m_compressor = new PNGCompressor();
 	}
 	else if(COMPRESSION_TYPE == "THEORA")
 	{
@@ -185,6 +195,31 @@ void GameMain::update(float deltaTime)
 		g_timeSinceLastSentFrame = 0.f;
 	}
 	ProfileSection::StopProfile("Network");
+
+	int clientInputBufferSize = 1024;
+	unsigned char clientInputBuffer[1024];
+	int pollResult = g_websocketServer->pollFrameFromClient(clientInputBuffer, clientInputBufferSize);
+	bool clientEventsRemain = true;
+	for(int clientInputIndex = 0; clientInputIndex < clientInputBufferSize && clientEventsRemain; clientInputIndex+=2)
+	{
+		unsigned char keyCode = clientInputBuffer[clientInputIndex];
+		if(keyCode != 0)
+		{
+			if(clientInputBuffer[clientInputIndex+1] == 0)
+			{
+				keyUpEvent(keyCode);
+			}
+			else
+			{
+				keyDownEvent(keyCode);
+			}
+		}
+		else
+		{
+			clientEventsRemain = false;
+		}
+	}
+
 	lastFrameNode.m_frameSizeBytes = m_compressor->m_sizeOfFinishedBuffer;
 	//delete[] compressedFrame;
 	m_compressor->cleanupAfterSend();

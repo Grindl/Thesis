@@ -10,8 +10,6 @@ class NonCompressor : public CompressionInterface
 public:
 	NonCompressor();
 
-	unsigned char* m_lastSentFrame;
-
 	virtual unsigned char* compressFrame(const unsigned char* uncompressedFrame, int frameWidth, int frameHeight);
 	virtual void cleanupAfterSend();
 };

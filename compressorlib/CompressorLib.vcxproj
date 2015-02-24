@@ -80,11 +80,15 @@
     <ClInclude Include="Code\3rdParty\libtheora\lib\modedec.h" />
     <ClInclude Include="Code\3rdParty\libtheora\lib\ocintrin.h" />
     <ClInclude Include="Code\3rdParty\libtheora\lib\quant.h" />
+    <ClInclude Include="Code\3rdParty\lodepng.h" />
     <ClInclude Include="Code\CompressAndSendAPI.hpp" />
     <ClInclude Include="Code\CompressionInterface.hpp" />
     <ClInclude Include="Code\ConnectionInitializationServer.hpp" />
+    <ClInclude Include="Code\HuffmanCompressor.hpp" />
     <ClInclude Include="Code\JPEGCompressor.hpp" />
     <ClInclude Include="Code\NonCompressor.hpp" />
+    <ClInclude Include="Code\PNGCompressor.hpp" />
+    <ClInclude Include="Code\RLECompressor.hpp" />
     <ClInclude Include="Code\TheoraCompressor.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -117,9 +121,13 @@
     <ClCompile Include="Code\3rdParty\libtheora\lib\rate.c" />
     <ClCompile Include="Code\3rdParty\libtheora\lib\state.c" />
     <ClCompile Include="Code\3rdParty\libtheora\lib\tokenize.c" />
+    <ClCompile Include="Code\3rdParty\lodepng.cpp" />
     <ClCompile Include="Code\CompressAndSendAPI.cpp" />
+    <ClCompile Include="Code\HuffmanCompressor.cpp" />
     <ClCompile Include="Code\JPEGCompressor.cpp" />
     <ClCompile Include="Code\NonCompressor.cpp" />
+    <ClCompile Include="Code\PNGCompressor.cpp" />
+    <ClCompile Include="Code\RLECompressor.cpp" />
     <ClCompile Include="Code\TheoraCompressor.cpp" />
   </ItemGroup>
   <ItemGroup>

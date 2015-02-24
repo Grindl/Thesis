@@ -90,6 +90,18 @@
     <ClInclude Include="Code\CompressAndSendAPI.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Code\HuffmanCompressor.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\PNGCompressor.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\RLECompressor.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\3rdParty\lodepng.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\JPEGCompressor.cpp">
@@ -190,6 +202,18 @@
     </ClCompile>
     <ClCompile Include="Code\CompressAndSendAPI.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\HuffmanCompressor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\PNGCompressor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RLECompressor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\3rdParty\lodepng.cpp">
+      <Filter>3rdParty</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
