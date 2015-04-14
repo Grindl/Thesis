@@ -88,7 +88,6 @@
   <ItemGroup>
     <ClCompile Include="Code\Camera.cpp" />
     <ClCompile Include="Code\Chunk.cpp" />
-    <ClCompile Include="Code\Connection.cpp" />
     <ClCompile Include="Code\Cube.cpp" />
     <ClCompile Include="Code\Entity.cpp" />
     <ClCompile Include="Code\FramePacket.cpp" />
@@ -98,12 +97,10 @@
     <ClCompile Include="Code\NoiseGen.cpp" />
     <ClCompile Include="Code\NonCompressor.cpp" />
     <ClCompile Include="Code\PNGCompressor.cpp" />
-    <ClCompile Include="Code\ReliableUDPReceiver.cpp" />
     <ClCompile Include="Code\RenderToMemoryBuffer.cpp" />
     <ClCompile Include="Code\RLECompressor.cpp" />
     <ClCompile Include="Code\StatisticsArray.cpp" />
     <ClCompile Include="Code\TheoraCompressor.cpp" />
-    <ClCompile Include="Code\User.cpp" />
     <ClCompile Include="Code\WIN32_Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -111,9 +108,7 @@
     <ClInclude Include="Code\Camera.hpp" />
     <ClInclude Include="Code\Chunk.hpp" />
     <ClInclude Include="Code\CompressionInterface.hpp" />
-    <ClInclude Include="Code\Connection.hpp" />
     <ClInclude Include="Code\ConnectionInitializationServer.hpp" />
-    <ClInclude Include="Code\CS6Packet.hpp" />
     <ClInclude Include="Code\Cube.hpp" />
     <ClInclude Include="Code\Data.hpp" />
     <ClInclude Include="Code\Entity.hpp" />
@@ -124,13 +119,11 @@
     <ClInclude Include="Code\NoiseGen.h" />
     <ClInclude Include="Code\NonCompressor.hpp" />
     <ClInclude Include="Code\PNGCompressor.hpp" />
-    <ClInclude Include="Code\ReliableUDPReceiver.hpp" />
     <ClInclude Include="Code\RenderToMemoryBuffer.hpp" />
     <ClInclude Include="Code\RLECompressor.hpp" />
     <ClInclude Include="Code\StatisticsArray.hpp" />
     <ClInclude Include="Code\StatisticsNode.hpp" />
     <ClInclude Include="Code\TheoraCompressor.hpp" />
-    <ClInclude Include="Code\User.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Code\Javascript\WebsocketConnection.js" />

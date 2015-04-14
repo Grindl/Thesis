@@ -18,19 +18,10 @@
     <ClCompile Include="Code\Camera.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Connection.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Code\Entity.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Code\GameMain.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\ReliableUDPReceiver.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\User.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Code\WIN32_Main.cpp">
@@ -77,12 +68,6 @@
     <ClInclude Include="Code\Camera.hpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Connection.hpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\CS6Packet.hpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Code\Data.hpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClInclude>
@@ -90,12 +75,6 @@
       <Filter>Resource Files\Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Code\GameMain.hpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\ReliableUDPReceiver.hpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\User.hpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Code\RenderToMemoryBuffer.hpp">

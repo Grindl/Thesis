@@ -18,16 +18,13 @@ unsigned char* RLECompressor::compressFrame(const unsigned char* uncompressedFra
 	int imageSize = frameWidth*frameHeight;
 	unsigned char* compressedBuffer = new unsigned char[imageSize*4];
 
-	int redOffset = 0;
-	int greenOffset = 1;
-	int blueOffset = 2;
 	int currentBufferIndex = 8;//first 8 bytes for channel positions
 
 	//TODO loop this for all three channels
 	for(int colorIndex = 0; colorIndex < 3; colorIndex++)
 	{
 		unsigned char lastPixel = uncompressedFrame[0 + colorIndex] & significanceMask;
-		unsigned int currentRunCount = 0;
+		unsigned char currentRunCount = 0;
 		for(int i = 0; i < imageSize; i++)
 		{
 			unsigned char currentPixel = uncompressedFrame[i*4 + colorIndex];

@@ -11,7 +11,6 @@
 #include "Console\ConsoleLog.hpp"
 #include "Console\Console.hpp"
 #include "Camera.hpp"
-#include "User.hpp"
 #include "Chunk.hpp"
 #include "CompressionInterface.hpp"
 #include "StatisticsArray.hpp"
@@ -24,7 +23,6 @@ public:
 	GameMain();
 
 	std::vector<Element*> m_elements;
-	std::vector<User*> m_users;
 	Renderer m_renderer;
 	float m_internalTime;
 	bool m_isQuitting;

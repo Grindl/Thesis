@@ -175,43 +175,69 @@ function strToUTF8Arr(sDOMStr) {
 
 //var serverAddress = request.serverAddress().toString();// inserted beforehand
 window.URL = window.URL || window.webkitURL;
+var useCanvas = false;
+
+var image = document.getElementById("ImageStream");
 var canvas = document.getElementById("CanvasStream");
 var canvasContext = canvas.getContext('2d');
 var currentFrameImageData = canvasContext.createImageData(640, 480);
 for (var i = 0; i < currentFrameImageData.data.length; i++) {
-currentFrameImageData.data[i] = 255;//to make sure we have something
+    currentFrameImageData.data[i] = 255;//to make sure we have something
 };
 canvasContext.putImageData(currentFrameImageData, 0, 0);
-//canvas.style.display = "none";
+var pixelMask = 0xf8;
+var runLengthMask = 0x7;
 var renderTarget = document.getElementById("RenderTarget");
 var renderContext = renderTarget.getContext("2d");
+
+if (useCanvas) 
+{
+    image.style.display = "none";
+}
+else {
+    renderTarget.style.display = "none";
+    canvas.style.display = "none";
+}
 
 var profiler = document.createElement('div');
 document.body.appendChild(profiler);
 var TimeOfLastFrame = window.performance.now();
-var totalTimeElapsed = 5; //HACK this is based on the assumption that 5 seconds of data are sent to video before playing
 var timeSpentProcessingSinceLastProfilerUpdate = 0;
 var numFramesSinceLastProfilerUpdate = 0;
 var bandwidthSinceLastProfilerUpdate = 0;
-var image = document.getElementById("ImageStream");
 
 var video = document.getElementById("VideoStream");
-var streamedVideoFile = new Blob([], {type : "video/ogg"});
-
+var streamedVideoFile = new Blob([], { type: "video/ogg" });
+video.style.display = "none"; //removed due to lack of functionality
 var streamedVideoURL = window.URL.createObjectURL(streamedVideoFile);
 var existingVideo = new Uint8Array();
+var totalTimeElapsed = 5; //HACK this is based on the assumption that 5 seconds of data are sent to video before playing
 
 window.URL.revokeObjectURL = window.URL.revokeObjectURL || window.webkitURL.revokeObjectURL;
 
 var keyEvents = new Uint8Array(256);
 var numKeyEventsSinceLastSend = 0;
 
+renderTarget.requestFullscreen = renderContext.requestFullscreen || renderContext.webkitRequestFullscreen || renderContext.mozRequestFullScreen;
+renderTarget.requestPointerLock = renderTarget.requestPointerLock || renderTarget.webkitRequestPointerLock || renderTarget.mozRequestPointerLock;
+
+var lockChangeEvent = function () {
+}
+
+if ("onpointerlockchange" in document) {
+    document.addEventListener('pointerlockchange', lockChangeEvent, false);
+} else if ("onmozpointerlockchange" in document) {
+    document.addEventListener('mozpointerlockchange', lockChangeEvent, false);
+} else if ("onwebkitpointerlockchange" in document) {
+    document.addEventListener('webkitpointerlockchange', lockChangeEvent, false);
+}
+
+
 function WebSocketTest() {
     if ("WebSocket" in window) {
         var ws = new WebSocket("ws://" + serverAddress + "/ws");
         ws.binaryType = 'arraybuffer';
         ws.onopen = function () {
-            //ws.send("Hello, world!");
             TimeOfLastFrame = window.performance.now();
             updatePerformance();
         };
@@ -246,15 +272,12 @@ function WebSocketTest() {
             }
             else if (compressionType == "RLE") {
                 var frameAsBytes = new Uint8Array(msg);
-                //var frameAsInts = new Uint32Array(frameAsBytes, 0, 8);
                 var greenChannelStart = frameAsBytes[0] + 256 * frameAsBytes[1] + 256 * 256 * frameAsBytes[2] + 256 * 256 * 256 * frameAsBytes[3]; //ugly way of dealing with endianness and casting
                 var blueChannelStart = frameAsBytes[4] + 256 * frameAsBytes[5] + 256 * 256 * frameAsBytes[6] + 256 * 256 * 256 * frameAsBytes[7];
                 var currentFrameImageData = canvasContext.createImageData(640, 480);
                 for (var i = 0; i < currentFrameImageData.data.length; i++) {
                     currentFrameImageData.data[i] = 255; //to make sure we have something
                 };
-                var pixelMask = 0xf8;
-                var runLengthMask = 0x7;
                 var imageIndex = 0;
                 for (var frameIndex = 8; frameIndex < frameAsBytes.length; frameIndex++) {
                     var runLength = frameAsBytes[frameIndex] & runLengthMask;
@@ -282,31 +305,35 @@ function WebSocketTest() {
             }
             else if (compressionType == "JPEG") {
                 var frameAsBytes = new Uint8Array(msg);
-                /*image.src = 'data:image/jpeg;base64,' + base64EncArr(frameAsBytes);
-                image.style.display = "none";*/
-                var frameAsBlob = new Blob([frameAsBytes], { type: "image/jpeg" });
-                var imageURL = window.URL.createObjectURL(frameAsBlob);
-                image.src = imageURL;
-                //image.style.display = "none";*/
-                //NOTE: this is dramatically faster on the client side (~2 orders of magnitude) but it doesn't interact properly with the canvas
-                renderContext.save();
-                renderContext.scale(1, -1);
-                renderContext.drawImage(image, 0, -480);
-                renderContext.restore();
+                if (useCanvas) {
+                    image.src = 'data:image/jpeg;base64,' + base64EncArr(frameAsBytes);
+                    renderContext.save();
+                    renderContext.scale(1, -1);
+                    renderContext.drawImage(image, 0, -480);
+                    renderContext.restore();
+                }
+                else {
+                    var frameAsBlob = new Blob([frameAsBytes], { type: "image/jpeg" });
+                    var imageURL = window.URL.createObjectURL(frameAsBlob);
+                    image.src = imageURL;
+                    image.style.transform = "scaleY(-1)";
+                } //NOTE: this is dramatically faster on the client side (~2 orders of magnitude) but it doesn't interact properly with the canvas
             }
             else if (compressionType == "PNG") {
                 var frameAsBytes = new Uint8Array(msg);
-                /*image.src = 'data:image/png;base64,' + base64EncArr(frameAsBytes);
-                image.style.display = "none";*/
-                var frameAsBlob = new Blob([frameAsBytes], { type: "image/png" });
-                var imageURL = window.URL.createObjectURL(frameAsBlob);
-                image.src = imageURL;
-                //image.style.display = "none";*/
-                //NOTE: this is dramatically faster on the client side (~2 orders of magnitude) but it doesn't interact properly with the canvas
-                renderContext.save();
-                renderContext.scale(1, -1);
-                renderContext.drawImage(image, 0, -480);
-                renderContext.restore();
+                if (useCanvas) {
+                    image.src = 'data:image/png;base64,' + base64EncArr(frameAsBytes);
+                    renderContext.save();
+                    renderContext.scale(1, -1);
+                    renderContext.drawImage(image, 0, -480);
+                    renderContext.restore();
+                }
+                else {
+                    var frameAsBlob = new Blob([frameAsBytes], { type: "image/png" });
+                    var imageURL = window.URL.createObjectURL(frameAsBlob);
+                    image.src = imageURL;
+                    image.style.transform = "scaleY(-1)";
+                }//NOTE: this is dramatically faster on the client side (~2 orders of magnitude) but it doesn't interact properly with the canvas
             }
             else if (compressionType == "THEORA") {
                 var frameAsBytes = new Uint8Array(msg);
@@ -318,19 +345,8 @@ function WebSocketTest() {
                 streamedVideoURL = window.URL.createObjectURL(streamedVideoFile);
                 video.src = streamedVideoURL;
                 video.currentTime = totalTimeElapsed;
-
-                //video.src = 'data:video/ogg;base64,' + base64EncArr(frameAsBytes);
-
-                /*var compositeArray = new Uint8Array(frameAsBytes.byteLength + existingVideo.byteLength);
-                compositeArray.set(existingVideo, 0);
-                compositeArray.set(frameAsBytes, existingVideo.byteLength);
-                existingVideo = compositeArray;
-                video.src = 'data:video/ogg;base64,' + base64EncArr(existingVideo);*/
             }
             timeSpentProcessingSinceLastProfilerUpdate += (window.performance.now() - startTime);
-            /*profiler.innerHTML = "Time Elapsed: " + ((window.performance.now() - startTime) * .001) + " s"
-            + "</br>Time Since Last Frame: " + (TimeSinceLastFrame * .001) + " s"
-            + "</br>Bandwidth: " + (msg.byteLength / TimeSinceLastFrame) + " KBps";*/
         };
         ws.onclose = function () {
             alert("WebSocket closed.");
@@ -344,7 +360,6 @@ function WebSocketTest() {
 
 
 var updatePerformance = function () {
-    //ws.send("Hello, world!");
     profiler.innerHTML = "Time Spent Processing: " + (timeSpentProcessingSinceLastProfilerUpdate * 0.1) + " %"
                 + "</br>Frames Per Second: " + numFramesSinceLastProfilerUpdate + ""
                 + "</br>Bandwidth: " + (bandwidthSinceLastProfilerUpdate/1000000.0) + " MiBps";

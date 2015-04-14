@@ -9,7 +9,6 @@
 #include "Utility\XMLParser.hpp"
 #include "Event System\EventSystemHelper.hpp"
 #include "Entity.hpp"
-#include "Connection.hpp"
 #include "Primitives/Color3b.hpp"
 #include "Utility/StringUtility.hpp"
 #include "Console\CommandParser.hpp"
@@ -22,7 +21,6 @@
 #include "RLECompressor.hpp"
 #include "PNGCompressor.hpp"
 
-Connection* g_serverConnection;
 ConnectionInitializationServer* g_websocketServer;
 float g_timeSinceLastSentFrame = 0.f;
 int g_frameNumber = 0;
@@ -109,26 +107,25 @@ GameMain::GameMain()
 		}
 	}
 
-
 	g_websocketServer = new ConnectionInitializationServer();
 
-	if(COMPRESSION_TYPE == "NONE")
+	if(strcmp(COMPRESSION_TYPE, "NONE") == 0)
 	{
 		m_compressor = new NonCompressor();
 	}
-	else if(COMPRESSION_TYPE == "RLE")
+	else if(strcmp(COMPRESSION_TYPE, "RLE") == 0)
 	{
 		m_compressor = new RLECompressor();
 	}
-	else if(COMPRESSION_TYPE == "JPEG")
+	else if(strcmp(COMPRESSION_TYPE, "JPEG") == 0)
 	{
 		m_compressor = new JPEGCompressor();
 	}
-	else if(COMPRESSION_TYPE == "PNG")
+	else if(strcmp(COMPRESSION_TYPE, "PNG") == 0)
 	{
 		m_compressor = new PNGCompressor();
 	}
-	else if(COMPRESSION_TYPE == "THEORA")
+	else if(strcmp(COMPRESSION_TYPE, "THEORA") == 0)
 	{
 		m_compressor = new TheoraCompressor();
 	}
@@ -183,15 +180,14 @@ void GameMain::update(float deltaTime)
 	g_timeSinceLastSentFrame+= deltaTime;
 
 	ProfileSection::StartProfile("Network");
-	if(g_activeWebSocket != 0 && !g_hasSentHeader && COMPRESSION_TYPE == "THEORA")
+	if(g_activeWebSocket != 0 && !g_hasSentHeader && strcmp(COMPRESSION_TYPE,"THEORA") == 0)
 	{
 		g_hasSentHeader = true;
 		g_websocketServer->sendFrameToClient(((TheoraCompressor*)m_compressor)->m_headerBuffer, ((TheoraCompressor*)m_compressor)->m_headerBufferLength);
 	}
-	if(g_timeSinceLastSentFrame > 0.01f && (g_hasSentHeader || COMPRESSION_TYPE != "THEORA"))
+	if(g_timeSinceLastSentFrame > 0.01f && (g_hasSentHeader || !(strcmp(COMPRESSION_TYPE,"THEORA")) == 0))
 	{
 		g_websocketServer->sendFrameToClient(compressedFrame, m_compressor->m_sizeOfFinishedBuffer);
-		//g_websocketServer->sendFrameToClient((((RenderToMemoryBuffer*)m_renderer.m_singleFrameBuffer)->m_currentFrameInMemory), SCREEN_WIDTH * SCREEN_HEIGHT * 4);
 		g_timeSinceLastSentFrame = 0.f;
 	}
 	ProfileSection::StopProfile("Network");

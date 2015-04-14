@@ -45,7 +45,7 @@ public:
 		ostr << "	<canvas id='RenderTarget' width='640' height='480'></canvas>\n";
 		ostr << "	<canvas id='CanvasStream' width='640' height='480'></canvas>\n";
 		ostr << "	<img id='ImageStream' src=''></img>\n";
-		ostr << "	<video id='VideoStream' src='somefile.ogv' type='video/ogg' codecs='theora' autoplay='autoplay'></video>\n"; //
+		ostr << "	<video id='VideoStream' src='somefile.ogv' type='video/ogg' codecs='theora' autoplay='autoplay'></video>\n";
 		ostr << "<script type=\"text/javascript\">\n";
 		ostr << "var serverAddress = \""<<request.serverAddress().toString()<<"\";\n";
 		ostr << "var compressionType = \""<<COMPRESSION_TYPE<<"\";\n";//HACK, this should be based on a const or parameter for ease
@@ -124,7 +124,7 @@ public:
 	~ConnectionInitializationServer();
 
 	HTTPServer* m_HTTPServer;
-	int m_port;
+	unsigned short m_port;
 
 	int sendFrameToClient(unsigned char* imageFrame, int imageBufferSize);
 	int pollFrameFromClient(unsigned char* inputFrame, int inputFrameSize);
